@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author darsa
+ *
+ */
+module browserhistory {
+}
