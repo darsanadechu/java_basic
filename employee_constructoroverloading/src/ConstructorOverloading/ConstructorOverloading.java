@@ -2,13 +2,13 @@ package ConstructorOverloading;
 
 class Employee
 {
-	int empid, yearofjoining;
+	int empID, yearOfJoining;
 	String name, company;
 	
-	Employee(int empid,int yearofjoining)
+	Employee(int empID,int yearOfJoining)
 	{
-		this.empid=empid;
-		this.yearofjoining=yearofjoining;
+		this.empID=empID;
+		this.yearOfJoining=yearOfJoining;
 	}
 	Employee(String name,String company)
 	{
@@ -21,11 +21,11 @@ class Employee
 public class ConstructorOverloading {
 	public static void main(String[] arg)
 	{
-		Employee E=new Employee("Darsana","Zoho");
-		System.out.println("empid:"+E.empid);
-		System.out.println("comapany:"+E.company);
-		System.out.println("name:"+E.name);
-		System.out.println("year of joining:"+E.yearofjoining);
+		Employee Employee1=new Employee("Darsana","Zoho");
+		System.out.println("empid:"+Employee1.empID);
+		System.out.println("comapany:"+Employee1.company);
+		System.out.println("name:"+Employee1.name);
+		System.out.println("year of joining:"+Employee1.yearOfJoining);
 	}
 
 }
