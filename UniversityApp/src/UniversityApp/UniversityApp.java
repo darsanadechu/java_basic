@@ -181,16 +181,19 @@ class University
 					for(Student student :studentList)
 						System.out.println(student.name);
 					break;
+					
 			case 2: //print all faculty name
 					System.out.println("printing all faculties");
 					for(Faculty faculty :facultyList)
 						System.out.println(faculty.name);
 					break;
+					
 			case 3: //print all course name
 					System.out.println("printing all courses");
 					for(Course course :courseList)
 						System.out.println(course.courseTitle);
-					break;		
+					break;	
+					
 			case 4: //print information of a student by student id
 					System.out.println("Enter id of student information to be printed: ");
 					int studId=sc.nextInt();
@@ -198,6 +201,7 @@ class University
 						if(student.studentId==studId)
 							student.displayDetails();
 					break;
+					
 			case 5: //print information of a course by course id
 					System.out.println("Enter id of course information to be printed: ");
 					String courId=sc.next();
@@ -205,15 +209,37 @@ class University
 						if(Objects.equals(courId, course.courseId))
 							course.displayCourse();
 					break;
+					
 			case 6:  //print information of a faculty by faculty id
 					System.out.println("Enter id of faculty information to be printed: ");
 					int faculId=sc.nextInt();
 					for(Faculty faculty:facultyList)
 						if(faculty.facultyId==faculId)
 							faculty.displayDetails();
-			case 7: 
 					break;
-			case 8: 
+					
+			case 7: //pprint student list and faculty information of a course
+					System.out.println("Enter id of course which students and faculty are printed");
+					String coursId=sc.next();
+					for(Course course:courseList)
+						if(Objects.equals(coursId, course.courseId))
+						{
+							System.out.println("Student list: ");
+							for(String str:course.studentsEnrolled)
+								System.out.println(str);
+						
+							//faculty details
+							
+							
+						}
+					break;
+					
+			case 8: //print course taken by a student
+					System.out.println("Enter id of student whoes courses are printed");
+					int studID=sc.nextInt();
+					for(Student student:studentList)
+						if(student.studentId==studID)
+							student.displayStudentCourse();
 					break;
 			default : System.out.println("Invalid choice");
 		}
@@ -222,6 +248,76 @@ class University
 	
 	void search()
 	{
+		int searchChoice;
+		Scanner sc = new Scanner(System.in);
+		System.out.println("1 : Search a student");
+		System.out.println("2 : search a coure");
+		System.out.println("3 : search a faculty");
+		System.out.println("4 : search whether a student takes a course");
+		System.out.println("5 : search whether a faculty teaches a course");
+		System.out.println("6 : search course taken by a student");
+		System.out.println("7 : search course taught by a faculty");
+		System.out.println("Make your choice");
+		searchChoice= sc.nextInt();
+		switch(searchChoice)
+		{
+			case 1: //search a student
+					System.out.println("Enter id of student  to be searched: ");
+					int studId=sc.nextInt();
+					for(Student student:studentList)
+						if(student.studentId==studId)
+						{
+							System.out.println("student found");
+							student.displayDetails();
+						}
+						else
+							System.out.println("student not found");
+					break;
+		
+			case 2: //search a course
+					System.out.println("Enter id of course  to be searched: ");
+					String courId=sc.next();
+					for(Course course:courseList)
+						if(Objects.equals(courId, course.courseId))
+						{
+							System.out.println("course found");
+							course.displayCourse();
+						}
+						else
+							System.out.println("course not found");
+					break;
+					
+			case 3: //search a faculty
+					System.out.println("Enter id of faculty  to be searched: ");
+					int faculId=sc.nextInt();
+					for(Faculty faculty:facultyList)
+						if(faculty.facultyId==faculId)
+						{
+							System.out.println("faculty found");
+							faculty.displayDetails();
+						}
+						else
+							System.out.println("course not found");
+					break;
+				
+			case 4:
+					break;
+					
+			case 5:
+					break;
+				
+			case 6:
+					break;	
+					
+			case 7:
+				break;	
+					
+			default : System.out.println("Invalid choice");		
+					
+					
+				
+		}
+		
 		
 	}
 }
@@ -254,6 +350,7 @@ class Student extends Person
 {
 	int studentId;
 	double studentCGPA;
+	ArrayList<String> studentCourse=new ArrayList<>();
 	Student()
 	{
 		
@@ -266,12 +363,24 @@ class Student extends Person
 		super.addDetails();
 		System.out.println("Enter CGPA:");
 		studentCGPA=sc.nextDouble();
+		System.out.println("Enter number of courses registered");
+		int n=sc.nextInt();
+		System.out.println("Enter courses");
+		for(int i=1;i<=n;i++)
+			studentCourse.add(sc.next());
+	}
+	void displayStudentCourse()
+	{
+		System.out.println("Courses :");
+		for(String str:studentCourse)
+			System.out.println(str);
 	}
 	@Override public void displayDetails()
 	{
 		System.out.println("Student ID : "+studentId);
 		super.displayDetails();
 		System.out.println("Student Cgpa : "+studentCGPA);
+		
 	}
 	
 	
@@ -308,18 +417,26 @@ class Course
 	
 	String courseId, courseTitle;
 	double credit;
-	Faculty faculty;
+	public ArrayList<String> studentsEnrolled=new ArrayList<>();
+	Faculty faculty1;
 	Course()
 	{
 		
 	}
 	public void addCourse()
 	{
-		System.out.println("Enter course id,title and credits");
 		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter course id: ");
 		this.courseId=sc.next();
+		System.out.println("Enter course title :");
 		this.courseTitle=sc.next();
+		System.out.println("Enter course credits: ");
 		this.credit=sc.nextDouble();
+		System.out.println("Enter students number of students enrolled");
+		int n=sc.nextInt();
+		System.out.println("Enter students :");
+		for(int i=1;i<=n;i++)
+			studentsEnrolled.add(sc.next());
 	}
 	public void displayCourse()
 	{
@@ -336,8 +453,9 @@ public class UniversityApp
 {
 	public static void main(String[] arg)
 	{
-		int choice,choiceCount=20;
-		for(int i=1;i<=choiceCount;i++)
+		int choice;
+		boolean more;
+		do
 		{
 			System.out.println("1 : Add");
 			System.out.println("2 : Delete");
@@ -362,8 +480,9 @@ public class UniversityApp
 				        break;
 				default : System.out.println("Invalid choice");
 			}
-			
-		}
+			System.out.println("need more");
+			more=sc.nextBoolean();
+		}while(more);
 		
 		
 	}
