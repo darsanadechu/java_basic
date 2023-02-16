@@ -29,8 +29,6 @@ class University
 				Student Student1 = new Student();
 				Student1.addDetails();
 				studentList.add(Student1);
-				for(Student student :studentList)
-					student.displayDetails();
 				break;
 		case 2: //add a faculty
 				Faculty Faculty1=new Faculty();
@@ -172,7 +170,7 @@ class University
 		System.out.println("4 : print information of a student");
 		System.out.println("5 : print information of a course");
 		System.out.println("6 : print information of a faculty");
-		System.out.println("7 : print student list and faculty infarmation of a course");
+		System.out.println("7 : print student list and faculty information of a course");
 		System.out.println("8 : print course taken by a student");
 		System.out.println("Make your choice");
 		printChoice= sc.nextInt();
