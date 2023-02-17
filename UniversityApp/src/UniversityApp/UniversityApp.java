@@ -4,9 +4,9 @@ import java.util.*;
 
 class University
 {
-	static ArrayList<Student> studentList=new ArrayList<Student>();
-	static ArrayList<Faculty> facultyList=new ArrayList<Faculty>();
-	static ArrayList<Course> courseList=new ArrayList<Course>();
+	public static ArrayList<Student> studentList=new ArrayList<Student>();
+	public static ArrayList<Faculty> facultyList=new ArrayList<Faculty>();
+	public static ArrayList<Course> courseList=new ArrayList<Course>();
 	
 	University()
 	{
@@ -227,15 +227,13 @@ class University
 							System.out.println("Student list: ");
 							for(String str:course.studentsEnrolled)
 								System.out.println(str);
-						
-							//faculty details
-							
-							
+							System.out.println("Faculty details: ");
+							course.faculty.displayDetails();
 						}
 					break;
 					
 			case 8: //print course taken by a student
-					System.out.println("Enter id of student whoes courses are printed");
+					System.out.println("Enter id of student whose courses are printed");
 					int studID=sc.nextInt();
 					for(Student student:studentList)
 						if(student.studentId==studID)
@@ -300,17 +298,64 @@ class University
 							System.out.println("course not found");
 					break;
 				
-			case 4:
+			case 4://search whether a student takes a course
+					System.out.println("Enter id of course to be searched for student");
+					String coursId=sc.next();
+					for(Course course:courseList)
+						if(Objects.equals(coursId, course.courseId))
+						{
+							if(!course.studentsEnrolled.isEmpty())
+							{
+								System.out.println("student found");
+								System.out.println("Student list: ");
+								for(String str:course.studentsEnrolled)
+									System.out.println(str);
+							}
+							else
+								System.out.println("student not found");
+						}
+						
 					break;
 					
-			case 5:
+			case 5://search whether a faculty teaches a course
+					System.out.println("Enter id of course to be searched for student");
+					String courseId=sc.next();
+					for(Course course:courseList)
+						if(Objects.equals(courseId, course.courseId))
+						{
+							if(!course.faculty.equals(null))
+							{
+								System.out.println("faculty found");
+							}
+							else
+								System.out.println("faculty not found");
+						}
 					break;
 				
-			case 6:
-					break;	
-					
-			case 7:
-				break;	
+			case 6://search course taken by a student
+					System.out.println("Enter id of student whose courses are searched");
+					int studID=sc.nextInt();
+					for(Student student:studentList)
+						if(student.studentId==studID)
+						{
+							System.out.println("courses taken by student");
+							student.displayStudentCourse();
+						}
+						else
+							System.out.println("course not found");
+					break;
+			case 7://search course taught by a faculty
+					System.out.println("Enter id of course  to be searched: ");
+					String couId=sc.next();
+					for(Course course:courseList)
+						if(Objects.equals(couId, course.courseId))
+						{
+							System.out.println("faculty found");
+							course.faculty.displayDetails();
+						}
+						else
+							System.out.println("faculty not found");
+					break;
 					
 			default : System.out.println("Invalid choice");		
 					
@@ -367,7 +412,9 @@ class Student extends Person
 		int n=sc.nextInt();
 		System.out.println("Enter courses");
 		for(int i=1;i<=n;i++)
+		{
 			studentCourse.add(sc.next());
+		}
 	}
 	void displayStudentCourse()
 	{
@@ -414,11 +461,11 @@ class Faculty extends Person
 
 class Course 
 {
-	
+	University university=new University();
 	String courseId, courseTitle;
 	double credit;
 	public ArrayList<String> studentsEnrolled=new ArrayList<>();
-	Faculty faculty1;
+	Faculty faculty;
 	Course()
 	{
 		
@@ -437,6 +484,11 @@ class Course
 		System.out.println("Enter students :");
 		for(int i=1;i<=n;i++)
 			studentsEnrolled.add(sc.next());
+		System.out.println("Enter faculty :");
+		faculty=new Faculty();
+		faculty.addDetails();
+		university.facultyList.add(faculty);
+
 	}
 	public void displayCourse()
 	{
