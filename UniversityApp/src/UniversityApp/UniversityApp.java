@@ -21,7 +21,7 @@ class University
 	//function for add
 	void add()
 	{
-		
+		Course course=new Course();
 		int addChoice;
 		System.out.println("1 : Add a student");
 		System.out.println("2 : Add a faculty");
@@ -40,6 +40,7 @@ class University
 				Faculty Faculty1=new Faculty();
 				Faculty1.addDetails();
 				Faculty1.addFacultyCourse();
+				course.faculty=Faculty1;
 				facultyList.add(Faculty1);
 				break;
 		case 3:	//add a course
@@ -108,6 +109,7 @@ class University
 	//update function
 	void update()
 	{
+		Course course=new Course();
 		int updateChoice;
 		System.out.println("1 : Update a student");
 		System.out.println("2 : Update a faculty");
@@ -141,6 +143,7 @@ class University
 						facultyList.remove(f);
 						f.addDetails();
 						f.addFacultyCourse();
+						course.faculty=f;
 						facultyList.add(f);
 						}
 					}
@@ -156,6 +159,7 @@ class University
 							courseList.remove(c);
 							c.addCourse();
 							courseList.add(c);
+							break;
 						}
 					}
 					break;
@@ -268,12 +272,10 @@ class University
 	
 	void displayDetails(Course course)
 	{
-		System.out.println("Student details :");
+		System.out.println("Course details :");
 		System.out.println("ID :"+course.getCourseId());
 		System.out.println("Title :"+course.getCourseTitle());
 		System.out.println("Credit :"+course.getCourseCredit());
-		System.out.println("Faculty :"+course.faculty.getName());
-		System.out.println("Number of student :"+course.getStudentNumber());
 		
 	}
 	
@@ -463,6 +465,7 @@ class Student extends Person
 	
 	@Override public void addDetails()
 	{
+		Course course=new Course();
 		int flag=0;
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Enter student id :");
@@ -480,10 +483,11 @@ class Student extends Person
 			for(int i=1;i<=n;i++)
 			{
 				String courseName=sc.next();
-				for(Course course:university.courseList)
-					if(Objects.equals(courseName, course.getCourseTitle()))
+				for(Course course1:university.courseList)
+					if(Objects.equals(courseName, course1.getCourseTitle()))
 					{
 						studentCourse.add(courseName);
+						course.studentsEnrolled.add(course1.getCourseTitle());
 						flag++;
 					}
 				if(flag==0)		
@@ -560,7 +564,7 @@ class Faculty extends Person
 //class course
 class Course 
 {
-	University university=new University();
+	University university1=new University();
 	private String courseId, courseTitle;
 	private double credit;
 	private int numberOfStudents;
@@ -604,7 +608,7 @@ class Course
 		/*System.out.println("want to drop a student");
 		if(sc.nextBoolean())
 		{
-			System.out.println("Enter name of student to be droped");
+			System.out.println("Enter name of student to be dropped");
 			String str1=sc.next();
 			for(String str:studentsEnrolled)
 				studentsEnrolled.remove(str1);
@@ -617,11 +621,11 @@ class Course
 			System.out.println("Enter faculty :");
 			faculty=new Faculty();
 			faculty.addDetails();
-			for(Faculty faculty1:university.facultyList)
+			for(Faculty faculty1:university1.facultyList)
 				if(Objects.equals(faculty1.getName(),faculty.getName()))
 					flag=1;
 			if(flag==0)
-				university.facultyList.add(faculty);
+				university1.facultyList.add(faculty);
 		}
 		
 		//drop faculty
@@ -658,8 +662,16 @@ class Course
 
 public class UniversityApp
 {
+	
 	public static void main(String[] arg)
 	{
+		University university=new University();
+		Course course1=new Course("c1","ise",0.0);
+		university.courseList.add(course1);
+		Course course2=new Course("c2","maa",4.0);
+		university.courseList.add(course2);
+		Course course3=new Course("c3","ml",4.0);
+		university.courseList.add(course3);
 		int choice;
 		boolean more;
 		do
@@ -672,11 +684,7 @@ public class UniversityApp
 			System.out.println("Enter your choice");
 			Scanner sc=new Scanner(System.in);
 			choice=sc.nextInt();
-			University university=new University();
-			Course course1=new Course("c1","ISE",0.0);
-			university.courseList.add(course1);
-			Course course2=new Course("c2","MAA",4.0);
-			university.courseList.add(course2);
+			
 			switch(choice)
 			{
 				case 1: university.add();
